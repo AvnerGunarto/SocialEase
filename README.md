@@ -30,10 +30,10 @@ npm run dev
 - Auto-feedback (?)
 - Chatbot (?)
 - Content Assistance (?)
-- Influencer Discovery 
+- Influencer Discovery (?)
 - Auto-moderation (?)
 - Multi-account management
-- Multi-platform streaming (?)
+- Multi-platform streaming
 - Generate reports (User account & Admin)
 
 !! : Critical
