@@ -24,6 +24,21 @@ php artisan serve
 npm run dev
 ```
 
+## To-do List
+- Schedule Posting (!!)
+- Content Analytics (!!)
+- Auto-feedback (?)
+- Chatbot (?)
+- Content Assistance (?)
+- Influencer Discovery 
+- Auto-moderation (?)
+- Multi-account management
+- Multi-platform streaming (?)
+- Generate reports (User account & Admin)
+
+!! : Critical
+? : Unsure if possible if not hardcode
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
