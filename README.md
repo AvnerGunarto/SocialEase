@@ -10,8 +10,10 @@
 ## Setting up the Project
 
 1. Copy the .env.example and rename to .env 
-2. Run this commands in the terminal:
+2. Run these commands in the terminal:
 ```
+composer require laravel/breeze --dev
+php artisan breeze:install react
 php artisan migrate
 ```
 To set up the database. By default, the .env uses SQLite. Change to MySQL in the .env file if not yet changed.
