@@ -37,6 +37,7 @@ npm run dev
 - Generate reports (User account & Admin)
 
 !! : Critical
+
 ? : Unsure if possible if not hardcode
 
 ## About Laravel
