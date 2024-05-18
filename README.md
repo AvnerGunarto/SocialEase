@@ -7,6 +7,21 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Setting up the Project
+
+1. Copy the .env.example and rename to .env 
+2. Run this commands in the terminal:
+```
+php artisan migrate
+```
+To set up the database. By default, the .env uses SQLite. Change to MySQL in the .env file if not yet changed.
+
+3. Run the server:
+```
+php artisan serve
+npm run dev
+```
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
