@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('social_media_type');
+            $table->string('social_media_name');
             $table->string('api_token');
+            $table->string('api_token_secret')->nullable();
             $table->boolean('enable_chatbot')->default(false);
             $table->timestamps();
         });
