@@ -9,7 +9,39 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Models\SocialAccount;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
+
+Route::get('login/{provider}', function ($provider) {
+    return Socialite::driver($provider)->redirect();
+})->middleware('auth');
+
+Route::get('login/{provider}/callback', function ($provider) {
+    $user = Socialite::driver($provider)->user();
+    $token = $user->token;
+    $tokenSecret = $user->tokenSecret;
+    $client = new Tumblr\API\Client(env('TUMBLR_CLIENT_ID'), env('TUMBLR_CLIENT_SECRET'));
+    $client->setToken($token, $tokenSecret);
+    $blogName = '';
+
+    foreach ($client->getUserInfo()->user->blogs as $blog) {
+        if ($blog->primary) {
+            $blogName = $blog->name;
+        }
+    }
+    $account = SocialAccount::updateOrCreate([
+        'user_id' => Auth::id(),
+        'social_media_type' => $provider,
+        'social_media_name' => $blogName,
+        'api_token' => $token,
+        'api_token_secret' => $tokenSecret,
+
+    ]);
+
+    return redirect()->route('dashboard');
+})->middleware('auth');
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])

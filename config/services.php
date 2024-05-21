@@ -35,4 +35,16 @@ return [
         ],
     ],
 
+    'facebook' => [
+        'client_id' => env('FACEBOOK_CLIENT_ID'),
+        'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+        'redirect' => env('FACEBOOK_REDIRECT_URI'),
+    ],
+
+    'tumblr' => [
+        'client_id' => env('TUMBLR_CLIENT_ID'),
+        'client_secret' => env('TUMBLR_CLIENT_SECRET'),
+        'redirect' => env('TUMBLR_REDIRECT_URI'),
+    ],
+
 ];
