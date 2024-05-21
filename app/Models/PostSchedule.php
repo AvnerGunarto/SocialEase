@@ -8,4 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class PostSchedule extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'content',
+        'publish_at',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function socialAccount()
+    {
+        return $this->HasMany(SocialAccount::class);
+    }
 }

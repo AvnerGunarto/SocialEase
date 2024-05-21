@@ -46,4 +46,30 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function streamingHistory()
+    {
+        return $this->hasMany(StreamingHistory::class);
+    }
+
+    public function paymentInfo()
+    {
+        return $this->hasOne(PaymentInfo::class);
+    }
+
+    public function socialAccount()
+    {
+        return $this->hasMany(SocialAccount::class);
+    }
+
+    public function postSchedule()
+    {
+        return $this->hasMany(PostSchedule::class);
+    }
+
+    public function subscription()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
 }

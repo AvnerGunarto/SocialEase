@@ -16,4 +16,25 @@ class SocialAccount extends Model
         'api_token',
         'api_token_secret'
     ];
+
+    protected $hidden = [
+        'api_token',
+        'api_token_secret',
+    ];
+
+    protected $casts = [
+        'api_token' => 'hashed',
+        'api_token_secret' => 'hashed',
+    ];
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function postSchedule()
+    {
+        return $this->belongsToMany(PostSchedule::class);
+    }
 }
