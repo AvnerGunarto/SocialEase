@@ -55,7 +55,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         />
                     </div>
                     <div>
-                        <h1 className="font-extrabold text-5xl">
+                        <h1 className="font-extrabold text-5xl mb-4">
                             Why SocialEase?
                         </h1>
                         <div className="flex justify-between">
