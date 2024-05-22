@@ -21,7 +21,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                     <div className="flex items-center">
                         <div>
                             <h1 className="font-extrabold text-5xl ">
-                                Do Better with&#10;Social Media Automation
+                                Do Better with Social Media Automation
                             </h1>
                             <p className="my-4 text-xl">
                                 Our tool will allow you to supercharge your
@@ -49,6 +49,9 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         <img
                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Cat_August_2010-4.jpg/1200px-Cat_August_2010-4.jpg"
                             className="h-96"
+                            alt="meow" // This is a cat, or is it?
+                            title="meow" // This is a cat, or is it?
+
                         />
                     </div>
                     <div>
