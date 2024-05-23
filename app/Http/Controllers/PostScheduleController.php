@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\PostSchedule;
+use App\Models\SocialAccount;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class PostScheduleController extends Controller
 {
@@ -14,8 +16,10 @@ class PostScheduleController extends Controller
     public function index(): Response
     {
         $postSchedules = PostSchedule::with('user:id, name')->latest()->get();
+        $social_accounts = SocialAccount::where('user_id', Auth::id())->orderBy('social_media_type')->get();
         return Inertia::render('Dashboard', [
-            'postSchedules' => $postSchedules
+            'postSchedules' => $postSchedules,
+            'socialAccounts' => $social_accounts,
         ]);
     }
 

@@ -11,8 +11,12 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Select from "react-select";
 
-export default function Dashboard({ auth, postSchedules }) {
+export default function Dashboard({ auth, postSchedules, socialAccounts }) {
     const [showModal, setShowModal] = useState(false);
+    const options = socialAccounts.map((account) => ({
+        value: account.id,
+        label: account.social_media_type + " - " + account.social_media_name,
+    }));
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -59,8 +63,8 @@ export default function Dashboard({ auth, postSchedules }) {
                     <Calendar />
                 </div>
             </div>
-            <Modal show={showModal} maxWidth="2xl" >
-                <div className="p-8" style={{height:"100%"}}>
+            <Modal show={showModal} maxWidth="2xl">
+                <div className="p-8" style={{ height: "100%" }}>
                     <div>
                         <div className="flex flex-row justify-between mb-2">
                             <h1 className="text-3xl font-black">Post</h1>
@@ -73,7 +77,7 @@ export default function Dashboard({ auth, postSchedules }) {
                             </button>
                         </div>
                         <div className="flex flex-row justify-between">
-                            <div style={{width:"100%"}} className="mr-8">
+                            <div style={{ width: "100%" }} className="mr-8">
                                 <InputLabel htmlFor="body" value="Post Body" />
                                 <textarea name="body" id="body" required />
                             </div>
@@ -84,11 +88,7 @@ export default function Dashboard({ auth, postSchedules }) {
                                     value="Social Media Accounts"
                                 />
                                 <Select
-                                    options={[
-                                        { value: "aahaaa", label: "yanto" },
-                                        { value: "aaha", label: "yanto2" },
-                                        { value: "aahaa", label: "yanto3" },
-                                    ]}
+                                    options={options}
                                     isMulti
                                     name="colors"
                                     className="basic-multi-select"
@@ -104,7 +104,7 @@ export default function Dashboard({ auth, postSchedules }) {
                                     name="post_title"
                                     id="post_title"
                                     required
-                                    style={{width:"100%"}}
+                                    style={{ width: "100%" }}
                                 />
                                 <InputLabel
                                     htmlFor="post_date"
@@ -115,7 +115,7 @@ export default function Dashboard({ auth, postSchedules }) {
                                     type="datetime-local"
                                     name="post_date"
                                     id="post_date"
-                                    style={{width:"100%"}}
+                                    style={{ width: "100%" }}
                                 />
                                 <InputLabel
                                     htmlFor="image"
