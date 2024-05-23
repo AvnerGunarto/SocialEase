@@ -13,15 +13,14 @@ class PostScheduleController extends Controller
 
     public function index(): Response
     {
-        $postSchedules = PostSchedule::with('user:id, name')->latest->get;
-        return Inertia::render('PostSchedule/Index', [
+        $postSchedules = PostSchedule::with('user:id, name')->latest()->get();
+        return Inertia::render('Dashboard', [
             'postSchedules' => $postSchedules
         ]);
     }
 
-    public function create(): Response
+    public function create()
     {
-        return Inertia::render('PostSchedule/Create');
     }
 
     public function store(Request $request): RedirectResponse
@@ -37,11 +36,9 @@ class PostScheduleController extends Controller
         return redirect()->route('post-schedule.index');
     }
 
-    public function edit(PostSchedule $postSchedule): Response
+    public function edit(PostSchedule $postSchedule)
     {
-        return Inertia::render('PostSchedule/Edit', [
-            'postSchedule' => $postSchedule
-        ]);
+
     }
 
     public function update(Request $request, PostSchedule $postSchedule): RedirectResponse
@@ -64,11 +61,5 @@ class PostScheduleController extends Controller
         return redirect()->route('post-schedule.index');
     }
 
-    public function show(PostSchedule $postSchedule): Response
-    {
-        return Inertia::render('PostSchedule/Show', [
-            'postSchedule' => $postSchedule
-        ]);
-    }
 
 }

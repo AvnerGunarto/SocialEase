@@ -6,6 +6,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { Head, Link, useForm } from "@inertiajs/react";
 import Checkbox from "@/Components/Checkbox";
+import Authenticated from "@/Layouts/AuthenticatedLayout";
 
 export default function RegisterPaymentInfo() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -28,7 +29,7 @@ export default function RegisterPaymentInfo() {
     };
 
     return (
-        <GuestLayout>
+        <Authenticated user={auth.user}>
             <Head title="Input Payment Info" />
             <div className="flex flex-col items-center max-w-none">
                 <h1 className="text-5xl font-extrabold">Input Payment Info</h1>
@@ -125,6 +126,6 @@ export default function RegisterPaymentInfo() {
                     </div>
                 </form>
             </div>
-        </GuestLayout>
+        </Authenticated>
     );
 }

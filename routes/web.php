@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostScheduleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\EnsurePaymentInfoInput;
 use Illuminate\Foundation\Application;
@@ -18,6 +19,8 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified', EnsurePaymentInfoInput::class])->name('dashboard');
+
+Route::resource('post-schedule', PostScheduleController::class)->middleware(['auth', 'verified', EnsurePaymentInfoInput::class])->only('index', 'store', 'update', 'destroy');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
