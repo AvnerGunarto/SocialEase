@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\PaymentInfo;
+use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\Request;
 
 class PaymentInfoController extends Controller
@@ -18,10 +20,11 @@ class PaymentInfoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create() : Response
     {
-        //
+        return Inertia::render('Auth/PaymentInfo');
     }
+
 
     /**
      * Store a newly created resource in storage.
