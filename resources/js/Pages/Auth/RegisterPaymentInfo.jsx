@@ -9,162 +9,116 @@ import Checkbox from "@/Components/Checkbox";
 
 export default function RegisterPaymentInfo() {
     const { data, setData, post, processing, errors, reset } = useForm({
-        name: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
-        phoneNum: "",
-        accountType: "1",
-        terms: false,
+        card_number: "",
+        address: "",
+        cvv: "",
+        expiry_date: "",
     });
 
     useEffect(() => {
         return () => {
-            reset("password", "password_confirmation");
+            reset("expiry_date", "cvv", "address", "card_number");
         };
     }, []);
 
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("register"));
+        post(route("payment.store"));
     };
 
     return (
         <GuestLayout>
-            <Head title="Register" />
+            <Head title="Input Payment Info" />
             <div className="flex flex-col items-center max-w-none">
-                <h1 className="text-5xl font-extrabold">Register</h1>
-                <p>Start your 30-day trial!</p>
+                <h1 className="text-5xl font-extrabold">Input Payment Info</h1>
+                <p>Don't worry, you won't be charged.</p>
                 <form
                     onSubmit={submit}
                     className="mx-32"
                     style={{ width: "50%" }}
                 >
                     <div>
-                        <InputLabel htmlFor="name" value="Name" />
+                        <InputLabel htmlFor="card_number" value="Card Number" />
 
                         <TextInput
-                            id="name"
-                            name="name"
-                            value={data.name}
+                            id="card_number"
+                            name="card_number"
+                            value={data.card_number}
                             className="mt-1 block w-full"
-                            autoComplete="name"
+                            autoComplete="card_number"
                             isFocused={true}
-                            onChange={(e) => setData("name", e.target.value)}
-                            required
-                        />
-
-                        <InputError message={errors.name} className="mt-2" />
-                    </div>
-
-                    <div className="mt-4">
-                        <InputLabel htmlFor="email" value="Email" />
-
-                        <TextInput
-                            id="email"
-                            type="email"
-                            name="email"
-                            value={data.email}
-                            className="mt-1 block w-full"
-                            autoComplete="username"
-                            onChange={(e) => setData("email", e.target.value)}
-                            required
-                        />
-
-                        <InputError message={errors.email} className="mt-2" />
-                    </div>
-
-                    <div className="mt-4">
-                        <InputLabel htmlFor="phoneNum" value="Phone Number" />
-
-                        <TextInput
-                            id="phoneNum"
-                            name="phoneNum"
-                            value={data.phoneNum}
-                            className="mt-1 block w-full"
-                            autoComplete="phoneNum"
                             onChange={(e) =>
-                                setData("phoneNum", e.target.value)
+                                setData("card_number", e.target.value)
                             }
                             required
                         />
 
                         <InputError
-                            message={errors.phoneNum}
+                            message={errors.card_number}
                             className="mt-2"
                         />
                     </div>
 
                     <div className="mt-4">
-                        <InputLabel htmlFor="password" value="Password" />
+                        <InputLabel htmlFor="address" value="Address" />
 
                         <TextInput
-                            id="password"
-                            type="password"
-                            name="password"
-                            value={data.password}
+                            id="address"
+                            name="address"
+                            value={data.address}
                             className="mt-1 block w-full"
-                            autoComplete="new-password"
-                            onChange={(e) =>
-                                setData("password", e.target.value)
-                            }
+                            autoComplete="Address"
+                            onChange={(e) => setData("address", e.target.value)}
                             required
                         />
 
-                        <InputError
-                            message={errors.password}
-                            className="mt-2"
-                        />
+                        <InputError message={errors.address} className="mt-2" />
                     </div>
 
-                    <div className="mt-4">
-                        <InputLabel
-                            htmlFor="password_confirmation"
-                            value="Confirm Password"
-                        />
+                    <div className="flex justify-between">
+                        <div className="mt-4" style={{ width: "100%" }}>
+                            <InputLabel htmlFor="cvv" value="CVV" />
 
-                        <TextInput
-                            id="password_confirmation"
-                            type="password"
-                            name="password_confirmation"
-                            value={data.password_confirmation}
-                            className="mt-1 block w-full"
-                            autoComplete="new-password"
-                            onChange={(e) =>
-                                setData("password_confirmation", e.target.value)
-                            }
-                            required
-                        />
+                            <TextInput
+                                id="cvv"
+                                name="cvv"
+                                value={data.cvv}
+                                className="mt-1 block w-full"
+                                autoComplete="cvv"
+                                onChange={(e) => setData("cvv", e.target.value)}
+                                placeholder="e.g. 123"
+                                required
+                            />
 
-                        <InputError
-                            message={errors.password_confirmation}
-                            className="mt-2"
-                        />
+                            <InputError message={errors.cvv} className="mt-2" />
+                        </div>
+
+                        <div className="mt-4 ml-2" style={{ width: "100%" }}>
+                            <InputLabel
+                                htmlFor="expiry_date"
+                                value="Expiration Date"
+                            />
+
+                            <TextInput
+                                id="expiry_date"
+                                name="expiry_date"
+                                value={data.password}
+                                className="mt-1 block w-full"
+                                onChange={(e) =>
+                                    setData("expiry_date", e.target.value)
+                                }
+                                placeholder="e.g. 12-23"
+                                required
+                            />
+
+                            <InputError
+                                message={errors.expiry_date}
+                                className="mt-2"
+                            />
+                        </div>
                     </div>
-
-                    <div className="mt-4">
-                        <Checkbox
-                            type="checkbox"
-                            id="terms"
-                            name="terms"
-                            value="terms"
-                            className="mr-2"
-                            onChange={(e) => setData("terms", e.target.checked)}
-                        />
-                        <label>I agree to the <Link href="/tnc" className="text-purple-500">terms and conditions</Link></label>
-
-                        <InputError message={errors.terms} className="mt-2" />
-                    </div>
-
                     <div className="flex items-center justify-end mt-4">
-                        <Link
-                            href={route("login")}
-                            className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        >
-                            Already registered?
-                        </Link>
-
                         <PrimaryButton className="ms-4" disabled={processing}>
                             Register
                         </PrimaryButton>

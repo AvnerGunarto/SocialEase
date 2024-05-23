@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\PaymentInfo;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -20,6 +21,11 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
+        $id = Auth::id();
+        $payment = PaymentInfo::where('user_id', $id)->exists();
+        if ($payment) {
+            return redirect(route('dashboard', absolute: false));
+        }
         return Inertia::render('Auth/Register');
     }
 
@@ -50,6 +56,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('payment', absolute: false));
+        return redirect(route('register/payment', absolute: false));
     }
 }

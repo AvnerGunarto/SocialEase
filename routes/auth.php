@@ -9,7 +9,8 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
-use App\Http\Controllers\PaymentInfoController;
+use App\Http\Controllers\Auth\PaymentInfoController;
+use App\Http\Middleware\EnsurePaymentInfoInput;
 use App\Models\SocialAccount;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -68,9 +69,8 @@ Route::middleware('guest')->group(function () {
         ->name('password.store');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('payment', [PaymentInfoController::class, 'create'])
-        ->name('payment');
+Route::middleware(['auth',EnsurePaymentInfoInput::class])->group(function () {
+
 
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
@@ -93,3 +93,8 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 });
+
+Route::get('register/payment', [PaymentInfoController::class, 'create'])
+->name('payment')->middleware('auth');
+
+Route::post('register/payment', [PaymentInfoController::class, 'store'])->middleware('auth')->name('payment.store');
