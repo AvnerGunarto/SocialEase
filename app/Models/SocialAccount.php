@@ -22,10 +22,7 @@ class SocialAccount extends Model
         'api_token_secret',
     ];
 
-    protected $casts = [
-        'api_token' => 'encrypted',
-        'api_token_secret' => 'encrypted',
-    ];
+ 
 
 
     public function user()

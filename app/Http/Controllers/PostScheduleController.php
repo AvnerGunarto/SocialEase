@@ -16,9 +16,20 @@ class PostScheduleController extends Controller
     public function index(): Response
     {
         // $postSchedules = PostSchedule::where('user_id',Auth::id())->orderBy('post_date', 'asc')->get();
-        $postSchedules = PostSchedule::with('socialAccount')->where('user_id', Auth::id())->orderBy('post_date', 'asc')->get();
+        $postSchedules = PostSchedule::with('socialAccount')->where('user_id', Auth::id())->WhereDate('post_date', '>=',date("Y-m-d H:i:s"))->orderBy('post_date', 'asc')->get();
         $social_accounts = SocialAccount::where('user_id', Auth::id())->orderBy('social_media_type')->get();
         return Inertia::render('Dashboard', [
+            'postSchedules' => $postSchedules,
+            'socialAccounts' => $social_accounts,
+            'submitted' => request('submitted'),
+        ]);
+    }
+
+    public function showHistory()
+    {
+        $postSchedules = PostSchedule::with('socialAccount')->where('user_id', Auth::id())->WhereDate('post_date', '<=',date("Y-m-d H:i:s"))->orderBy('post_date', 'asc')->get();
+        $social_accounts = SocialAccount::where('user_id', Auth::id())->orderBy('social_media_type')->get();
+        return Inertia::render('PostHistory', [
             'postSchedules' => $postSchedules,
             'socialAccounts' => $social_accounts,
             'submitted' => request('submitted'),

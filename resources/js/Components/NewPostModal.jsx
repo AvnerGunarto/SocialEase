@@ -9,18 +9,21 @@ import "react-calendar/dist/Calendar.css";
 import Select from "react-select";
 
 export default function NewPostModal({ showModal, setShowModal, options }) {
-    const { data, setData, post, processing, errors, reset, wasSuccessful } = useForm({
-        body: "",
-        social_account: [],
-        post_title: "",
-        post_date: "",
-        image: null,
-    });
+    const { data, setData, post, processing, errors, reset, wasSuccessful } =
+        useForm({
+            body: "",
+            social_account: [],
+            post_title: "",
+            post_date: "",
+            image: null,
+        });
 
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("dashboard.store"));
+        post(route("dashboard.store"), {
+            onSuccess: () => setShowModal(false),
+        });
     };
 
     useEffect(() => {
@@ -155,11 +158,6 @@ export default function NewPostModal({ showModal, setShowModal, options }) {
                             >
                                 Schedule Post
                             </PrimaryButton>
-                            {wasSuccessful && (
-                                <p className="text-green-500">
-                                    Post Scheduled!
-                                </p>
-                            )}
                         </div>
                     </form>
                 </div>

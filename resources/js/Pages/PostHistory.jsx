@@ -1,63 +1,71 @@
-import { useState } from "react";
-import PrimaryButton from "./PrimaryButton";
-import SecondaryButton from "./SecondaryButton";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import Modal from "@/Components/Modal";
+import NewPostModal from "@/Components/NewPostModal";
+import PostScheduleItems from "@/Components/PostScheduleItems";
+import PrimaryButton from "@/Components/PrimaryButton";
+import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { Head, useForm } from "@inertiajs/react";
+import { useEffect } from "react";
+import { useState } from "react";
+import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Select from "react-select";
-import { useForm } from "@inertiajs/react";
 
-export default function PostScheduleItems({
-    postSchedule,
-    options,
-    posted = false,
-}) {
-    const [showEditModal, setShowEditModal] = useState(false);
-    const { data, setData, patch, processing, errors, reset, wasSuccessful } =
-        useForm({
-            body: postSchedule.body,
-            social_account: postSchedule.social_account.map(
-                (account) => account.id
-            ),
-            post_title: postSchedule.title,
-            post_date: postSchedule.post_date,
-            image: postSchedule.image,
-        });
-    const submit = (e) => {
-        e.preventDefault();
+export default function PostHistory({ auth, postSchedules, socialAccounts }) {
+    const [showModal, setShowModal] = useState(false);
+    const options = socialAccounts.map((account) => ({
+        value: account.id,
+        label: account.social_media_type + " - " + account.social_media_name,
+    }));
 
-        patch(route("dashboard.update", postSchedule.id), {
-            onSuccess: () => setShowEditModal(false),
-        });
-    };
     return (
-        <div className="flex  items-center justify-between border-b-2 mb-2">
-            <div>
-                <h1>{postSchedule.title}</h1>
-                <p>{new Date(postSchedule.post_date).toLocaleString()}</p>
+        <AuthenticatedLayout
+            user={auth.user}
+            header={
+                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+                    Dashboard
+                </h2>
+            }
+        >
+            <Head title="Dashboard" />
+
+            <div className="p-12 flex flex-row justify-between">
+                <div style={{ width: "100%" }} className="mr-40">
+                    <h1 className="text-5xl font-black mb-4">
+                        Posted Scheduled Posts
+                    </h1>
+                    {Object.keys(postSchedules).length === 0 ? (
+                        <h2 className="text-xl text-gray-500">
+                            No scheduled posts posted yet! Schedule some posts.
+                        </h2>
+                    ) : (
+                        postSchedules.map((postSchedule) => (
+                            <PostScheduleItems
+                                key={postSchedule.id}
+                                postSchedule={postSchedule}
+                                options={options}
+                                posted={true}
+                            />
+                        ))
+                    )}
+                </div>
+
+                <div>
+                    <Calendar />
+                </div>
             </div>
-            <div>
-                <SecondaryButton className="mr-2">
-                    Post Moderation
-                </SecondaryButton>
-                <PrimaryButton
-                    onClick={() => {
-                        setShowEditModal(true);
-                    }}
-                >
-                    {posted ? "View Details" : "Edit"}
-                </PrimaryButton>
-            </div>
-            <Modal show={showEditModal} maxWidth="2xl">
+
+            {/* <Modal show={showModal} maxWidth="2xl">
                 <div className="p-8" style={{ height: "100%" }}>
                     <div>
                         <div className="flex flex-row justify-between mb-2">
                             <h1 className="text-3xl font-black">Post</h1>
                             <button
                                 onClick={() => {
-                                    setShowEditModal(false);
+                                    setShowModal(false);
                                 }}
                             >
                                 X
@@ -79,7 +87,6 @@ export default function PostScheduleItems({
                                         onChange={(e) =>
                                             setData("body", e.target.value)
                                         }
-                                        disabled={posted}
                                     />
                                     <InputError
                                         message={errors.body}
@@ -96,15 +103,6 @@ export default function PostScheduleItems({
                                         options={options}
                                         isMulti
                                         name="colors"
-                                        defaultValue={postSchedule.social_account.map(
-                                            (account) => ({
-                                                value: account.id,
-                                                label:
-                                                    account.social_media_type +
-                                                    " - " +
-                                                    account.social_media_name,
-                                            })
-                                        )}
                                         className="basic-multi-select"
                                         classNamePrefix="select"
                                         onChange={(selectedOptions) => {
@@ -116,7 +114,6 @@ export default function PostScheduleItems({
                                             );
                                         }}
                                         required
-                                        isDisabled={posted}
                                     />
                                     <InputError
                                         message={errors.social_account}
@@ -140,7 +137,6 @@ export default function PostScheduleItems({
                                                 e.target.value
                                             )
                                         }
-                                        disabled={posted}
                                     />
                                     <InputError
                                         message={errors.post_title}
@@ -161,7 +157,6 @@ export default function PostScheduleItems({
                                         onChange={(e) =>
                                             setData("post_date", e.target.value)
                                         }
-                                        disabled={posted}
                                     />
                                     <InputError
                                         message={errors.post_date}
@@ -181,7 +176,6 @@ export default function PostScheduleItems({
                                         onChange={(e) =>
                                             setData("image", e.target.files[0])
                                         }
-                                        disabled={posted}
                                     />
                                     <InputError
                                         message={errors.image}
@@ -189,20 +183,16 @@ export default function PostScheduleItems({
                                     />
                                 </div>
                             </div>
-                            {!posted && (
-                                <div className="mt-4 flex flex-row items-center">
-                                    <PrimaryButton
-                                        className=" mr-4"
-                                        disabled={processing}
-                                    >
-                                        Update Post Schedule
-                                    </PrimaryButton>
-                                </div>
-                            )}
+                            <PrimaryButton
+                                className="mt-4"
+                                disabled={processing}
+                            >
+                                Schedule Post
+                            </PrimaryButton>
                         </form>
                     </div>
                 </div>
-            </Modal>
-        </div>
+            </Modal> */}
+        </AuthenticatedLayout>
     );
 }

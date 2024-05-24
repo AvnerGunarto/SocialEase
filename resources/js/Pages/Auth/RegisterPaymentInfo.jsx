@@ -8,7 +8,7 @@ import { Head, Link, useForm } from "@inertiajs/react";
 import Checkbox from "@/Components/Checkbox";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 
-export default function RegisterPaymentInfo() {
+export default function RegisterPaymentInfo({ auth }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         card_number: "",
         address: "",
