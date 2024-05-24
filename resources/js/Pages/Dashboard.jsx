@@ -1,36 +1,26 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import Modal from "@/Components/Modal";
+import NewPostModal from "@/Components/NewPostModal";
 import PostScheduleItems from "@/Components/PostScheduleItems";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, useForm } from "@inertiajs/react";
+import { useEffect } from "react";
 import { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Select from "react-select";
 
 export default function Dashboard({ auth, postSchedules, socialAccounts }) {
-    const { data, setData, post, processing, errors, reset } = useForm({
-        body: "",
-        social_account: [],
-        post_title: "",
-        post_date: "",
-        image: null,
-    });
     const [showModal, setShowModal] = useState(false);
     const options = socialAccounts.map((account) => ({
         value: account.id,
         label: account.social_media_type + " - " + account.social_media_name,
     }));
 
-    const submit = (e) => {
-        e.preventDefault();
-
-        post(route("dashboard.store"));
-    };
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -57,6 +47,7 @@ export default function Dashboard({ auth, postSchedules, socialAccounts }) {
                             <PostScheduleItems
                                 key={postSchedule.id}
                                 postSchedule={postSchedule}
+                                options={options}
                             />
                         ))
                     )}
@@ -77,7 +68,14 @@ export default function Dashboard({ auth, postSchedules, socialAccounts }) {
                     <Calendar />
                 </div>
             </div>
-            <Modal show={showModal} maxWidth="2xl">
+            {
+                <NewPostModal
+                    showModal={showModal}
+                    options={options}
+                    setShowModal={setShowModal}
+                />
+            }
+            {/* <Modal show={showModal} maxWidth="2xl">
                 <div className="p-8" style={{ height: "100%" }}>
                     <div>
                         <div className="flex flex-row justify-between mb-2">
@@ -211,7 +209,7 @@ export default function Dashboard({ auth, postSchedules, socialAccounts }) {
                         </form>
                     </div>
                 </div>
-            </Modal>
+            </Modal> */}
         </AuthenticatedLayout>
     );
 }
