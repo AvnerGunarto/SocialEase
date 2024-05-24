@@ -15,7 +15,7 @@ class PostScheduleController extends Controller
 
     public function index(): Response
     {
-        $postSchedules = PostSchedule::with('user:id, name')->latest()->get();
+        $postSchedules = PostSchedule::where('user_id',Auth::id())->latest()->get();
         $social_accounts = SocialAccount::where('user_id', Auth::id())->orderBy('social_media_type')->get();
         return Inertia::render('Dashboard', [
             'postSchedules' => $postSchedules,
@@ -30,14 +30,31 @@ class PostScheduleController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-            'publish_at' => 'required',
+            'body' => 'required|string',
+            'social_account' => 'required',
+            'post_title' => 'required|string',
+            'post_date' => 'required|date|after:today',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        PostSchedule::create($request->all());
+        $image = null;
+        if ($request->file('image') !== null) {
+            $image = $request->file('image')->store('images');
+        }
 
-        return redirect()->route('post-schedule.index');
+        $postSchedule = PostSchedule::create([
+            'user_id' => Auth::id(),
+            'title' => $request->post_title,
+            'body' => $request->body,
+            'post_date' => $request->post_date,
+            'image' => $image,
+        ]);
+
+        foreach ($request->social_account as $social_account) {
+            $postSchedule->socialAccount()->attach($social_account);
+        }
+
+        return redirect()->route('dashboard');
     }
 
     public function edit(PostSchedule $postSchedule)
@@ -55,14 +72,14 @@ class PostScheduleController extends Controller
 
         $postSchedule->update($request->all());
 
-        return redirect()->route('post-schedule.index');
+        return redirect()->route('dashboard');
     }
 
     public function destroy(PostSchedule $postSchedule): RedirectResponse
     {
         $postSchedule->delete();
 
-        return redirect()->route('post-schedule.index');
+        return redirect()->route('dashboard');
     }
 
 

@@ -21,11 +21,11 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        $id = Auth::id();
-        $payment = PaymentInfo::where('user_id', $id)->exists();
-        if ($payment) {
-            return redirect(route('dashboard', absolute: false));
-        }
+        // $id = Auth::id();
+        // $payment = PaymentInfo::where('user_id', $id)->exists();
+        // if ($payment) {
+        //     return redirect(route('dashboard', absolute: false));
+        // }
         return Inertia::render('Auth/Register');
     }
 

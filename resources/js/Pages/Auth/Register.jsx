@@ -152,7 +152,12 @@ export default function Register() {
                             className="mr-2"
                             onChange={(e) => setData("terms", e.target.checked)}
                         />
-                        <label>I agree to the <Link href="/tnc" className="text-purple-500">terms and conditions</Link></label>
+                        <label>
+                            I agree to the{" "}
+                            <Link href="/tnc" className="text-purple-500">
+                                terms and conditions
+                            </Link>
+                        </label>
 
                         <InputError message={errors.terms} className="mt-2" />
                     </div>

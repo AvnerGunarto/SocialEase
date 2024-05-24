@@ -3,7 +3,10 @@
 use App\Http\Controllers\PostScheduleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\EnsurePaymentInfoInput;
+use App\Models\PostSchedule;
+use App\Models\SocialAccount;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -16,11 +19,24 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified', EnsurePaymentInfoInput::class])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     $postSchedules = PostSchedule::with('user:id, name')->latest()->get();
+//     $social_accounts = SocialAccount::where('user_id', Auth::id())->orderBy('social_media_type')->get();
+//     return Inertia::render('Dashboard', [
+//         'postSchedules' => $postSchedules,
+//         'socialAccounts' => $social_accounts,
+//     ]);
+// })->middleware(['auth', 'verified', EnsurePaymentInfoInput::class])->name('dashboard');
 
-Route::resource('post-schedule', PostScheduleController::class)->middleware(['auth', 'verified', EnsurePaymentInfoInput::class])->only('index', 'store', 'update', 'destroy');
+Route::get('/dashboard', [PostScheduleController::class, 'index'])->middleware(['auth', 'verified', EnsurePaymentInfoInput::class])->name('dashboard');
+
+Route::post('/dashboard', [PostScheduleController::class, 'store'])->middleware(['auth', 'verified', EnsurePaymentInfoInput::class])->name('dashboard.store');
+
+Route::put('/dashboard/{postSchedule}', [PostScheduleController::class, 'update'])->middleware(['auth', 'verified', EnsurePaymentInfoInput::class])->name('dashboard.update');
+
+Route::patch('/dashboard/{postSchedule}', [PostScheduleController::class, 'update'])->middleware(['auth', 'verified', EnsurePaymentInfoInput::class])->name('dashboard.update');
+
+Route::delete('/dashboard/{postSchedule}', [PostScheduleController::class, 'destroy'])->middleware(['auth', 'verified', EnsurePaymentInfoInput::class])->name('dashboard.destroy');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -28,4 +44,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
