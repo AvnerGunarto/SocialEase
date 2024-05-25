@@ -32,6 +32,11 @@ php artisan serve
 npm run dev
 ```
 
+5. Run the scheduler for post posting:
+```
+php artisan schedule:work
+```
+
 ## To-do List
 - Login (v)
 - Register UI (V)
