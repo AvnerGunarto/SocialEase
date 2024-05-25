@@ -25,14 +25,15 @@ npm run dev
 ```
 
 ## To-do List
-- Login
+- Login (v)
 - Register UI (V)
 - Payment Info (V)
-- Payment Info Navbar
+- Payment Info Navbar (V)
 - Tumblr API Integration (V)
-- Add API UI
+- Add API UI (V)
 - ???????????????????????????????
-- Schedule Posting (!!)
+- Schedule Posting (V)
+- Fix post schedule and history
 - Content Analytics (!!)
 - Auto-feedback (?)
 - Chatbot (?)
