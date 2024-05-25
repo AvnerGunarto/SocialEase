@@ -26,7 +26,7 @@ export default function PostHistory({ auth, postSchedules, socialAccounts }) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Dashboard
+                    Post History
                 </h2>
             }
         >

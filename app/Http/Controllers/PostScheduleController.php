@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\PostSchedule;
 use App\Models\SocialAccount;
+use Carbon\Carbon;
 use DateInterval;
 use DateTime;
 use GuzzleHttp\Client;
@@ -22,10 +23,19 @@ class PostScheduleController extends Controller
     public function index(): Response
     {
         // $postSchedules = PostSchedule::where('user_id',Auth::id())->orderBy('post_date', 'asc')->get();
-        $postSchedules = PostSchedule::with('socialAccount')->where('user_id', Auth::id())->WhereDate('post_date', '>', date("Y-m-d H:i:s"))->orderBy('post_date', 'asc')->get();
+        $postSchedules = PostSchedule::with('socialAccount')->where('user_id', Auth::id())->orderBy('post_date', 'asc')->get();
+        $postSchedules = $postSchedules->filter(function ($postSchedule) {
+            return $postSchedule->post_date && $postSchedule->post_date->gt(Carbon::now('Asia/Jakarta'));
+        });
+        $pc =[];
+        foreach ($postSchedules as $postSchedule) {
+            array_push($pc, $postSchedule);
+        }
+
+        error_log($postSchedules);
         $social_accounts = SocialAccount::where('user_id', Auth::id())->orderBy('social_media_type')->get();
         return Inertia::render('Dashboard', [
-            'postSchedules' => $postSchedules,
+            'postSchedules' => $pc,
             'socialAccounts' => $social_accounts,
             'submitted' => request('submitted'),
         ]);
@@ -33,10 +43,17 @@ class PostScheduleController extends Controller
 
     public function showHistory()
     {
-        $postSchedules = PostSchedule::with('socialAccount')->where('user_id', Auth::id())->WhereDate('post_date', '<=', date("Y-m-d H:i:s"))->orderBy('post_date', 'asc')->get();
+        $postSchedules = PostSchedule::with('socialAccount')->where('user_id', Auth::id())->orderBy('post_date', 'asc')->get();
+        $postSchedules = $postSchedules->filter(function ($postSchedule) {
+            return $postSchedule->post_date && $postSchedule->post_date->lte(Carbon::now('Asia/Jakarta'));
+        });
+        $pc =[];
+        foreach ($postSchedules as $postSchedule) {
+            array_push($pc, $postSchedule);
+        }
         $social_accounts = SocialAccount::where('user_id', Auth::id())->orderBy('social_media_type')->get();
         return Inertia::render('PostHistory', [
-            'postSchedules' => $postSchedules,
+            'postSchedules' => $pc,
             'socialAccounts' => $social_accounts,
             'submitted' => request('submitted'),
         ]);

@@ -18,6 +18,10 @@ class PostSchedule extends Model
         'post_id',
     ];
 
+    protected $casts = [
+        'post_date' => 'datetime',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
