@@ -51,10 +51,15 @@ export default function UpdateAPIKeys({ className = "", socialMedia }) {
                 </div>
             )}
             <div className="mt-6 space-y-6">
-            <h3 className="font-black">List of Linked Social Accounts</h3>
+                <h3 className="font-black">List of Linked Social Accounts</h3>
                 {socialMedia.map((media) => (
-                    <SocialAccounts key={media.id} media={media}  />
+                    <SocialAccounts key={media.id} media={media} />
                 ))}
+                {Object.keys(socialMedia).length === 0 && (
+                    <p className="text-sm text-gray-600">
+                        You have not linked any social media accounts yet.
+                    </p>
+                )}
                 {/* <table className="table-auto min-w-full text-center">
                     <tr className="border-b-2 mb-2">
                         <th>Social Media</th>

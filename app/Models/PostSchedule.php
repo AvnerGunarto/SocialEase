@@ -15,6 +15,7 @@ class PostSchedule extends Model
         'body',
         'post_date',
         'image',
+        'post_id',
     ];
 
     public function user()

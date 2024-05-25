@@ -28,6 +28,7 @@ Route::get('profile/tumblr/callback', function () {
     foreach ($client->getUserInfo()->user->blogs as $blog) {
         if ($blog->primary) {
             $blogName = $blog->name;
+            break;
         }
     }
     $account = SocialAccount::updateOrCreate([
