@@ -17,12 +17,8 @@ class SocialAccount extends Model
         'api_token_secret'
     ];
 
-    protected $hidden = [
-        'api_token',
-        'api_token_secret',
-    ];
 
- 
+
 
 
     public function user()
