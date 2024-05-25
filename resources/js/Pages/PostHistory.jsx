@@ -14,7 +14,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Select from "react-select";
 
-export default function Dashboard({ auth, postSchedules, socialAccounts }) {
+export default function PostHistory({ auth, postSchedules, socialAccounts }) {
     const [showModal, setShowModal] = useState(false);
     const options = socialAccounts.map((account) => ({
         value: account.id,
@@ -26,7 +26,7 @@ export default function Dashboard({ auth, postSchedules, socialAccounts }) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Dashboard
+                    Post History
                 </h2>
             }
         >
@@ -35,12 +35,11 @@ export default function Dashboard({ auth, postSchedules, socialAccounts }) {
             <div className="p-12 flex flex-row justify-between">
                 <div style={{ width: "100%" }} className="mr-40">
                     <h1 className="text-5xl font-black mb-4">
-                        Scheduled Posts
+                        Posted Scheduled Posts
                     </h1>
                     {Object.keys(postSchedules).length === 0 ? (
                         <h2 className="text-xl text-gray-500">
-                            Looks like you don't have any posts scheduled yet.
-                            Add some!
+                            No scheduled posts posted yet! Schedule some posts.
                         </h2>
                     ) : (
                         postSchedules.map((postSchedule) => (
@@ -48,33 +47,17 @@ export default function Dashboard({ auth, postSchedules, socialAccounts }) {
                                 key={postSchedule.id}
                                 postSchedule={postSchedule}
                                 options={options}
+                                posted={true}
                             />
                         ))
                     )}
                 </div>
 
                 <div>
-                    <div className="mb-4 flex justify-end">
-                        <PrimaryButton
-                            className="mr-2"
-                            onClick={() => {
-                                setShowModal(true);
-                            }}
-                        >
-                            Add Post
-                        </PrimaryButton>
-                        <SecondaryButton>Chatbot Settings</SecondaryButton>
-                    </div>
                     <Calendar />
                 </div>
             </div>
-            {
-                <NewPostModal
-                    showModal={showModal}
-                    options={options}
-                    setShowModal={setShowModal}
-                />
-            }
+
             {/* <Modal show={showModal} maxWidth="2xl">
                 <div className="p-8" style={{ height: "100%" }}>
                     <div>

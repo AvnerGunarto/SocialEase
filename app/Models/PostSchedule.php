@@ -10,9 +10,16 @@ class PostSchedule extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'title',
-        'content',
-        'publish_at',
+        'body',
+        'post_date',
+        'image',
+        'post_id',
+    ];
+
+    protected $casts = [
+        'post_date' => 'datetime',
     ];
 
     public function user()
@@ -22,6 +29,6 @@ class PostSchedule extends Model
 
     public function socialAccount()
     {
-        return $this->HasMany(SocialAccount::class);
+        return $this->belongsToMany(SocialAccount::class, 'post_schedules_social_accounts');
     }
 }

@@ -24,6 +24,12 @@ class PaymentInfo extends Model
 
     ];
 
+    protected $casts = [
+        'card_number' => 'hashed',
+        'cvv' => 'hashed',
+        'expiry_date' => 'hashed',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
