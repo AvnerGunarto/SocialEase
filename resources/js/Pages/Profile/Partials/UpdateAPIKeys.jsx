@@ -6,7 +6,7 @@ import TextInput from "@/Components/TextInput";
 import { Link, useForm } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
 import { useState } from "react";
-import { ImTumblr2 } from "react-icons/im";
+//import { ImTumblr2 } from "react-icons/im/";
 import DangerButton from "@/Components/DangerButton";
 import SocialAccounts from "@/Components/SocialAccounts";
 
@@ -45,7 +45,8 @@ export default function UpdateAPIKeys({ className = "", socialMedia }) {
                             style={{ backgroundColor: "#001935" }}
                             onClick={() => {}}
                         >
-                            <ImTumblr2 className="mr-2" /> Tumblr
+                            {/* <ImTumblr2 className="mr-2" />  */}
+                            Tumblr
                         </PrimaryButton>
                     </a>
                 </div>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tumblr Posts</title>
+</head>
+<body>
+
+<h1>Tumblr Posts</h1>
+
+<script>
+    const limit = 10; // Number of posts per request
+
+    function fetchPosts() {
+        fetch(`/tumblr/posts?limit=${limit}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Posts:', data.posts);
+                console.log('Total Likes:', data.total_likes);
+                console.log('Total Reblogs:', data.total_reblogs);
+                console.log('Total Comments:', data.total_comments);
+            })
+            .catch(error => {
+                console.error('Error fetching Tumblr posts:', error);
+            });
+    }
+
+    // Initial fetch
+    fetchPosts();
+</script>
+
+</body>
+</html>
