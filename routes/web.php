@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Socialite\Facades\Socialite;
+use App\Http\Controllers\AnalyticsController;
+
+
+
+
 
 Route::get('profile/tumblr', function () {
     return Socialite::driver('tumblr')->redirect();
@@ -80,5 +85,21 @@ Route::middleware(['auth', EnsurePaymentInfoInput::class])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+Route::get('/analytics', function() {
+    return Inertia::render('Analytics');
+} )->middleware(['auth', 'verified', EnsurePaymentInfoInput::class])->name('analytics');
+
+
+Route::get('/api/tumblr/posts', [AnalyticsController::class, 'getTumblrPosts']);
+
+
+Route::get('/tumblr/posts', [AnalyticsController::class, 'getTumblrPosts']);
+
+// Route::get('/', function () {
+//     return file_get_contents(public_path('index.html'));
+// });
+
 
 require __DIR__ . '/auth.php';

@@ -23,7 +23,7 @@ class PostScheduleController extends Controller
     public function index(): Response
     {
         // $postSchedules = PostSchedule::where('user_id',Auth::id())->orderBy('post_date', 'asc')->get();
-        $postSchedules = PostSchedule::with('socialAccount')->where('user_id', Auth::id())->orderBy('post_date', 'asc')->get();
+        $postSchedules = PostSchedule::with('socialAccount')->where('user_id', Auth::id())->where('status', 'scheduled')->orderBy('post_date', 'asc')->get();
         $postSchedules = $postSchedules->filter(function ($postSchedule) {
             return $postSchedule->post_date && $postSchedule->post_date->gt(Carbon::now('Asia/Jakarta'));
         });
@@ -43,7 +43,7 @@ class PostScheduleController extends Controller
 
     public function showHistory()
     {
-        $postSchedules = PostSchedule::with('socialAccount')->where('user_id', Auth::id())->orderBy('post_date', 'asc')->get();
+        $postSchedules = PostSchedule::with('socialAccount')->where('user_id', Auth::id())->where('status', 'posted')->orderBy('post_date', 'asc')->get();
         $postSchedules = $postSchedules->filter(function ($postSchedule) {
             return $postSchedule->post_date && $postSchedule->post_date->lte(Carbon::now('Asia/Jakarta'));
         });

@@ -45,6 +45,9 @@ return [
         'client_id' => env('TUMBLR_CLIENT_ID'),
         'client_secret' => env('TUMBLR_CLIENT_SECRET'),
         'redirect' => env('TUMBLR_REDIRECT_URI'),
+        'api_key' => env('TUMBLR_API_KEY'),
+        'token' => env('TUMBLR_TOKEN'),
+        'token_secret' => env('TUMBLR_TOKEN_SECRET'),
     ],
 
 ];

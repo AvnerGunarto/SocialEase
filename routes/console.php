@@ -9,6 +9,7 @@ use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
@@ -18,6 +19,8 @@ Schedule::call(function () {
     $posts = PostSchedule::with('socialAccount:id,social_media_type,api_token,api_token_secret')->get();
     foreach ($posts as $post) {
         if (($post->post_date <= date("Y-m-d H:i:s") && $post->status == 'posted') || $post->post_date > date("Y-m-d H:i:s")) {
+          
+           
             continue;
         }
         $uploadData = [];

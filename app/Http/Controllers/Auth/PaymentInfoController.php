@@ -43,7 +43,7 @@ class PaymentInfoController extends Controller
             'card_number' => 'required|numeric|digits:16',
             'address' => 'required|string|max:255',
             'cvv' => 'required|numeric|digits:3',
-            'expiry_date' => 'required|date_format:m-y',
+            'expiry_date' => 'required|date_format:m-y|after:today',
         ]);
 
         PaymentInfo::create([
