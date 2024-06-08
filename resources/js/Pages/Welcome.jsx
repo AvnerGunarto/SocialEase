@@ -46,9 +46,10 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                 Start your journey with 30 days of free trial.
                             </p>
                         </div>
+                        {/* https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Cat_August_2010-4.jpg/1200px-Cat_August_2010-4.jpg */}
                         <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Cat_August_2010-4.jpg/1200px-Cat_August_2010-4.jpg"
-                            className="h-96"
+                            src="https://i1.wp.com/99robots.com/wp-content/uploads/2015/10/Social-Media-Automation.jpg?fit=1600%2C800&ssl=1"
+                            className="h-80 rounded drop-shadow-xl "
                             alt="meow" // This is a cat, or is it?
                             title="meow" // This is a cat, or is it?
 

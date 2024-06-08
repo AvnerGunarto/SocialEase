@@ -97,9 +97,9 @@ Route::get('/api/tumblr/posts', [AnalyticsController::class, 'getTumblrPosts']);
 
 Route::get('/tumblr/posts', [AnalyticsController::class, 'getTumblrPosts']);
 
-Route::get('/', function () {
-    return file_get_contents(public_path('index.html'));
-});
+// Route::get('/', function () {
+//     return file_get_contents(public_path('index.html'));
+// });
 
 
 require __DIR__ . '/auth.php';

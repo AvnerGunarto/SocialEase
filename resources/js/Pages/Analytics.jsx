@@ -12,6 +12,7 @@ import {
     Legend,
 } from "chart.js";
 import axios from 'axios';
+import { Head } from "@inertiajs/react";
 
 ChartJS.register(
     CategoryScale,
@@ -122,12 +123,13 @@ export default function Dashboard({ auth }) {
                 </h2>
             }
         > 
+            <Head title="Analytics"/>
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 bg-white border-b border-gray-200">
                             <h1>Welcome to your Dashboard, {auth.user.name}</h1>
-                            <p>Here you can find a summary of your activities on tumblr-yantvyu.</p>
+                            <p>Here you can find a summary of your activities on your account.</p>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                                 <div className="bg-white p-4 rounded shadow" style={{ backgroundColor: "#f0f8ff" }}>
                                     <h3 className="text-lg mb-4">Total Likes</h3>

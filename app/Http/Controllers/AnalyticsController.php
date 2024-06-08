@@ -2,36 +2,62 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SocialAccount;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use Auth;
+use Tumblr\API\Client as API;
+
 
 class AnalyticsController extends Controller
 {
+    private function getAccount()
+    {
+        $accounts = SocialAccount::where("user_id", Auth::id())->get();
+        foreach ($accounts as $account) {
+            if ($account->social_media_type == "tumblr") {
+                return $account;
+            }
+
+        }
+        return null;
+    }
+
     public function getTumblrPosts(Request $request)
     {
+        $account = $this->getAccount();
+        $client = new API(env('TUMBLR_CLIENT_ID'), env('TUMBLR_CLIENT_SECRET'));
+        $client->setToken($account->api_token, $account->api_token_secret);
+        foreach ($client->getUserInfo()->user->blogs as $blog) {
+            if ($blog->primary) {
+                $blogName = $blog->name;
+                break;
+            }
+        }
+
         $client = new Client();
-        $limit = $request->input('limit', 10); // Default limit is 10
+        $limit = $request->input('limit', 99999); // Default limit is 10
 
         try {
             // Fetch text posts
-            $textPostsResponse = $client->request('GET', 'https://api.tumblr.com/v2/blog/yantvyu.tumblr.com/posts/text', [
+            $textPostsResponse = $client->request('GET', 'https://api.tumblr.com/v2/blog/' . $blogName . '/posts/text', [
                 'query' => [
                     'notes_info' => 'true',
                     'limit' => $limit,
                 ],
                 'headers' => [
-                    'Authorization' => 'OAuth ' . $this->getOauthHeader()
+                    'Authorization' => 'OAuth ' . $this->getOauthHeader($account, $blogName)
                 ]
             ]);
 
             // Fetch photo posts
-            $photoPostsResponse = $client->request('GET', 'https://api.tumblr.com/v2/blog/yantvyu.tumblr.com/posts/photo', [
+            $photoPostsResponse = $client->request('GET', 'https://api.tumblr.com/v2/blog/' . $blogName . '/posts/photo', [
                 'query' => [
                     'notes_info' => 'true',
                     'limit' => $limit,
                 ],
                 'headers' => [
-                    'Authorization' => 'OAuth ' . $this->getOauthHeader()
+                    'Authorization' => 'OAuth ' . $this->getOauthHeader($account, $blogName)
                 ]
             ]);
 
@@ -49,12 +75,12 @@ class AnalyticsController extends Controller
         }
     }
 
-    private function getOauthHeader()
+    private function getOauthHeader(SocialAccount $socialAccount, $blogName)
     {
         $consumerKey = env('TUMBLR_CLIENT_ID');
         $consumerSecret = env('TUMBLR_CLIENT_SECRET');
-        $token = env('TUMBLR_TOKEN');
-        $tokenSecret = env('TUMBLR_TOKEN_SECRET');
+        $token = $socialAccount->api_token;
+        $tokenSecret = $socialAccount->api_token_secret;
 
         $oauth = [
             'oauth_consumer_key' => $consumerKey,
@@ -65,7 +91,7 @@ class AnalyticsController extends Controller
             'oauth_version' => '1.0'
         ];
 
-        $baseInfo = $this->buildBaseString('https://api.tumblr.com/v2/blog/yantvyu.tumblr.com/posts/text', 'GET', $oauth);
+        $baseInfo = $this->buildBaseString('https://api.tumblr.com/v2/blog' . $blogName . 'posts/text', 'GET', $oauth);
         $compositeKey = rawurlencode($consumerSecret) . '&' . rawurlencode($tokenSecret);
         $oauthSignature = base64_encode(hash_hmac('sha1', $baseInfo, $compositeKey, true));
         $oauth['oauth_signature'] = $oauthSignature;
