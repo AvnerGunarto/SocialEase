@@ -46,7 +46,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                             </p>
                         </div>
                     </div>
-                    <div className="absolute top-[0px] right-[-130px] w-[600px] h-auto z-[0] pointer-events-none">
+                    <div className="absolute top-[0px] right-[0px] w-[600px] h-auto z-[0] pointer-events-none">
                         <img
                             src="/images/Onboarding/Combine2.png"
                             className="w-full h-auto rounded drop-shadow-xl"
