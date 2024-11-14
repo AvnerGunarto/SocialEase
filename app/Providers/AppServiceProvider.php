@@ -25,6 +25,10 @@ class AppServiceProvider extends ServiceProvider
             $event->extendSocialite('tumblr', \SocialiteProviders\Tumblr\Provider::class, \SocialiteProviders\Tumblr\Server::class);
         });
 
+        Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
+            $event->extendSocialite('twitter', \SocialiteProviders\Twitter\Provider::class, \SocialiteProviders\Twitter\Server::class);
+        });
+
     }
 
 

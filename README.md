@@ -29,7 +29,7 @@ To set up the database. By default, the .env uses SQLite. Change to MySQL in the
 4. Run the server:
 ```
 php artisan serve
-npm run dev
+npm run build
 ```
 
 5. Run the scheduler for post posting:

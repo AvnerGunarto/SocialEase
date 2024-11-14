@@ -48,6 +48,31 @@ Route::get('profile/tumblr/callback', function () {
     return redirect()->route('profile.edit');
 })->middleware(['auth', 'verified', EnsurePaymentInfoInput::class]);
 
+Route::get(uri: 'profile/twitter', action: function ()  {
+    return Socialite::driver('twitter')->redirect();
+})->middleware(middleware: ['auth', 'verified', EnsurePaymentInfoInput::class]);
+
+Route::get('profile/twitter/callback', function () {
+    $user = Socialite::driver('twitter')->user();
+    $token = $user->token;
+    $tokenSecret = $user->tokenSecret;
+
+    $account = SocialAccount::updateOrCreate([
+        'user_id' => Auth::id(),
+        'social_media_type' => 'twitter',
+        'social_media_name' => $user->getNickname(),
+        'api_token' => $token,
+        'api_token_secret' => $tokenSecret,
+
+    ]);
+    return redirect()->route('profile.edit');
+})->middleware(['auth', 'verified', EnsurePaymentInfoInput::class]);
+
+
+
+
+
+
 Route::resource('socialAccount', SocialAccountController::class)->middleware(['auth', 'verified', EnsurePaymentInfoInput::class]);
 
 Route::get('/post-history', [PostScheduleController::class, 'showHistory'])->middleware(['auth', 'verified', EnsurePaymentInfoInput::class])->name('socialAccount.showHistory');

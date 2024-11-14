@@ -24,7 +24,7 @@ export default function UpdateAPIKeys({ className = "", socialMedia }) {
                     Add or remove your social media accounts.
                 </p>
                 <p className="text-sm text-gray-600">
-                    Currently, we support Tumblr.
+                    Currently, we support Tumblr and Twitter.
                 </p>
             </header>
 
@@ -40,13 +40,22 @@ export default function UpdateAPIKeys({ className = "", socialMedia }) {
 
             {showAddSocialMedia && (
                 <div className="mt-4 space-y-4">
-                    <a href="/profile/tumblr">
+                    <a href="/profile/tumblr" className="mr-2">
                         <PrimaryButton
                             style={{ backgroundColor: "#001935" }}
                             onClick={() => {}}
                         >
                             {/* <ImTumblr2 className="mr-2" />  */}
                             Tumblr
+                        </PrimaryButton>
+                    </a>
+                    <a href="/profile/twitter">
+                        <PrimaryButton
+                            className="bg-blue-600"
+                            onClick={() => {}}
+                        >
+                            {/* <ImTumblr2 className="mr-2" />  */}
+                            Twitter
                         </PrimaryButton>
                     </a>
                 </div>
