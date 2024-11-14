@@ -9,13 +9,7 @@
 
 ## Setting up the Project
 
-1. Copy the .env.example and rename to .env, then add:
-```
-TUMBLR_CLIENT_ID=
-TUMBLR_CLIENT_SECRET=
-TUMBLR_REDIRECT_URI="/profile/tumblr/callback"
-```
-add SocialEase client ID and secret
+1. Get .env file
 
 2. Run these commands in the terminal:
 ```
@@ -23,8 +17,6 @@ composer install
 php artisan breeze:install react
 php artisan migrate
 ```
-
-To set up the database. By default, the .env uses SQLite. Change to MySQL in the .env file if not yet changed.
 
 4. Run the server:
 ```
