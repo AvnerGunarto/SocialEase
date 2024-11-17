@@ -14,7 +14,6 @@
 2. Run these commands in the terminal:
 ```
 composer install
-php artisan breeze:install react
 php artisan migrate
 ```
 
