@@ -14,6 +14,7 @@
 2. Run these commands in the terminal:
 ```
 composer install
+npm install
 php artisan migrate
 ```
 
