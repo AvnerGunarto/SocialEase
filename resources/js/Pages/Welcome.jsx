@@ -148,7 +148,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                     </div>
                     {/* Purple About Us Section */}
                     <div className="bg-[#836FFF] py-32">
-                        <div className="mx-auto mt-24 text-center w-[80%]">
+                        <div className="mx-auto mt-24 text-center w-[80%] lg:pl-20 lg:pr-40 relative">
                             <h2 className="text-2xl font-extrabold mb-4 text-white">
                                 About Us
                             </h2>
